@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Katalog Kuliner UMKM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1B1410;
+    --surface: #241A14;
+    --surface-hover: #2C2016;
+    --line: #3A2C20;
+    --text: #F3E9DA;
+    --text-muted: #C9B8A3;
+    --gold: #E3A857;
+    --chili: #C1443B;
+    --olive: #8A9178;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.55;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  header.hero {
+    padding: 72px 0 56px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero-tag {
+    color: var(--gold);
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    max-width: 15ch;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .hero p {
+    color: var(--text-muted);
+    max-width: 58ch;
+    font-size: 1.05rem;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 36px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+
+  .hero-stats div {
+    border-left: 2px solid var(--chili);
+    padding-left: 14px;
+  }
+
+  .hero-stats .num {
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem;
+    color: var(--text);
+  }
+
+  .hero-stats .label {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+  }
+
+  nav.filters {
+    position: sticky;
+    top: 0;
+    background: rgba(27, 20, 16, 0.92);
+    backdrop-filter: blur(6px);
+    z-index: 10;
+    border-bottom: 1px solid var(--line);
+    padding: 16px 0;
+  }
+
+  .filters-inner {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .chip {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text-muted);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+  }
+
+  .chip:hover {
+    border-color: var(--gold);
+    color: var(--text);
+  }
+
+  .chip.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #1B1410;
+    font-weight: 600;
+  }
+
+  main {
+    padding: 56px 0 90px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 28px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.15s ease;
+  }
+
+  .card:hover {
+    background: var(--surface-hover);
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .card h3 {
+    font-size: 1.35rem;
+  }
+
+  .tag {
+    background: rgba(138, 145, 120, 0.18);
+    color: var(--olive);
+    font-size: 0.78rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  .card .desc {
+    color: var(--text-muted);
+    font-size: 0.94rem;
+    margin-bottom: 18px;
+  }
+
+  .menu-list {
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+    margin-bottom: 18px;
+    flex-grow: 1;
+  }
+
+  .menu-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 0;
+    font-size: 0.94rem;
+  }
+
+  .menu-item .price {
+    color: var(--gold);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .card-foot {
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .card-foot span.label {
+    color: var(--chili);
+    font-weight: 500;
+  }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 32px 0 48px;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+  }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 600px) {
+    header.hero { padding: 48px 0 40px; }
+    .hero-stats { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-tag">Katalog Kuliner UMKM</div>
+    <h1>Rasa dari dapur rumahan dan warung tepi jalan</h1>
+    <p>Kumpulan usaha kuliner rumahan dan warung kecil lengkap dengan menu andalan serta harganya. Isi contoh di halaman ini masih fiktif dan bisa diganti dengan data UMKM yang sebenarnya.</p>
+    <div class="hero-stats">
+      <div>
+        <div class="num">7</div>
+        <div class="label">UMKM terdaftar</div>
+      </div>
+      <div>
+        <div class="num">31</div>
+        <div class="label">Menu tersedia</div>
+      </div>
+      <div>
+        <div class="num">4</div>
+        <div class="label">Kategori kuliner</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="filters">
+  <div class="wrap filters-inner">
+    <button class="chip active" data-filter="all">Semua</button>
+    <button class="chip" data-filter="berat">Makanan Berat</button>
+    <button class="chip" data-filter="sate">Sate &amp; Bakar</button>
+    <button class="chip" data-filter="kue">Camilan &amp; Kue</button>
+    <button class="chip" data-filter="minuman">Minuman</button>
+  </div>
+</nav>
+
+<main class="wrap">
+  <div class="grid" id="grid">
+
+    <article class="card" data-category="berat">
+      <div class="card-top">
+        <h3>Dapur Bu Sari</h3>
+        <span class="tag">Makanan Berat</span>
+      </div>
+      <p class="desc">Nasi goreng dan lauk rumahan dengan bumbu racikan sendiri, dimasak setiap pagi dalam porsi terbatas.</p>
+      <div class="menu-list">
+        <div class="menu-item"><span>Nasi Goreng Kampung</span><span class="price">Rp 15.000</span></div>
+        <div class="menu-item"><span>Nasi Goreng Teri Medan</span><span class="price">Rp 18.000</span></div>
+        <div class="menu-item"><span>Ayam Bumbu Bali</span><span class="price">Rp 20.000</span></div>
+        <div class="menu-item"><span>Tempe Orek</span><span class="price">Rp 8.000</span></div>
+      </div>
+      <div class="card-foot">
+        <span><span class="label">Lokasi</span> Jl. Melati No. 12, dekat pasar pagi</span>
+        <span><span class="label">Jam buka</span> 06.00 - 13.00</span>
+      </div>
+    </article>
+
+    <article class="card" data-category="kue">
+      <div class="card-top">
+        <h3>Angkringan Mas Broto</h3>
+        <span class="tag">Camilan &amp; Kue</span>
+      </div>
+      <p class="desc">Angkringan malam dengan sego kucing, gorengan hangat, dan aneka sate murah meriah.</p>
+      <div class="menu-list">
+        <div class="menu-item"><span>Sego Kucing Teri</span><span class="price">Rp 5.000</span></div>
+        <div class="menu-item"><span>Tempe Mendoan</span><span class="price">Rp 6.000</span></div>
+        <div class="menu-item"><span>Ceker Bumbu Rica</span><span class="price">Rp 7.000</span></div>
+        <div class="menu-item"><span>Teh Poci Gula Batu</span><span class="price">Rp 6.000</span></div>
+      </div>
+      <div class="card-foot">
+        <span><span class="label">Lokasi</span> Trotoar Jl. Kenanga, buka setelah maghrib</span>
+        <span><span class="label">Jam buka</span> 18.00 - 00.00</span>
+      </div>
+    </article>
+
+    <article class="card" data-category="minuman">
+      <div class="card-top">
+        <h3>Kedai Kopi Tjangkir</h3>
+        <span class="tag">Minuman</span>
+      </div>
+      <p class="desc">Kopi tubruk dan susu jahe racikan turun temurun, disajikan bersama kue tradisional buatan sendiri.</p>
+      <div class="menu-list">
+        <div class="menu-item"><span>Kopi Tubruk</span><span class="price">Rp 8.000</span></div>
+        <div class="menu-item"><span>Susu Jahe Rempah</span><span class="price">Rp 12.000</span></div>
+        <div class="menu-item"><span>Es Kopi Gula Aren</span><span class="price">Rp 15.000</span></div>
+        <div class="menu-item"><span>Pisang Goreng Keju</span><span class="price">Rp 10.000</span></div>
+      </div>
+      <div class="card-foot">
+        <span><span class="label">Lokasi</span> Ruko Jl. Anggrek No. 3</span>
+        <span><span class="label">Jam buka</span> 07.00 - 21.00</span>
+      </div>
+    </article>
+
+    <article class="card" data-category="berat">
+      <div class="card-top">
+        <h3>Soto Betawi Pak Herman</h3>
+        <span class="tag">Makanan Berat</span>
+      </div>
+      <p class="desc">Soto santan kental dengan daging dan jeroan pilihan, dimasak dalam kuali besar setiap hari.</p>
+      <div class="menu-list">
+        <div class="menu-item"><span>Soto Betawi Daging</span><span class="price">Rp 25.000</span></div>
+        <div class="menu-item"><span>Soto Betawi Campur</span><span class="price">Rp 28.000</span></div>
+        <div class="menu-item"><span>Nasi Putih</span><span class="price">Rp 5.000</span></div>
+        <div class="menu-item"><span>Emping Melinjo</span><span class="price">Rp 5.000</span></div>
+      </div>
+      <div class="card-foot">
+        <span><span class="label">Lokasi</span> Jl. Cempaka Raya No. 45</span>
+        <span><span class="label">Jam buka</span> 09.00 - 16.00</span>
+      </div>
+    </article>
+
+    <article class="card" data-category="minuman">
+      <div class="card-top">
+        <h3>Es Kepal Milo Bunda</h3>
+        <span class="tag">Minuman</span>
+      </div>
+      <p class="desc">Minuman dingin kekinian dengan topping melimpah, favorit anak sekolah sepulang jam pelajaran.</p>
+      <div class="menu-list">
+        <div class="menu-item"><span>Es Kepal Milo Original</span><span class="price">Rp 13.000</span></div>
+        <div class="menu-item"><span>Es Kepal Milo Oreo</span><span class="price">Rp 16.000</span></div>
+        <div class="menu-item"><span>Es Kelapa Muda</span><span class="price">Rp 10.000</span></div>
+        <div class="menu-item"><span>Jus Alpukat</span><span class="price">Rp 12.000</span></div>
+      </div>
+      <div class="card-foot">
+        <span><span class="label">Lokasi</span> Depan SDN Sukamaju 02</span>
+        <span><span class="label">Jam buka</span> 10.00 - 17.00</span>
+      </div>
+    </article>
+
+    <article class="card" data-category="sate">
+      <div class="card-top">
+        <h3>Warung Sate Bang Jufri</h3>
+        <span class="tag">Sate &amp; Bakar</span>
+      </div>
+      <p class="desc">Sate ayam dan kambing dengan bumbu kacang kental, dibakar langsung setelah dipesan.</p>
+      <div class="menu-list">
+        <div class="menu-item"><span>Sate Ayam (10 tusuk)</span><span class="price">Rp 22.000</span></div>
+        <div class="menu-item"><span>Sate Kambing (10 tusuk)</span><span class="price">Rp 35.000</span></div>
+        <div class="menu-item"><span>Lontong</span><span class="price">Rp 5.000</span></div>
+        <div class="menu-item"><span>Es Teh Manis</span><span class="price">Rp 5.000</span></div>
+      </div>
+      <div class="card-foot">
+        <span><span class="label">Lokasi</span> Jl. Flamboyan No. 8</span>
+        <span><span class="label">Jam buka</span> 17.00 - 22.00</span>
+      </div>
+    </article>
+
+    <article class="card" data-category="kue">
+      <div class="card-top">
+        <h3>Kue Basah Mbok Darmi</h3>
+        <span class="tag">Camilan &amp; Kue</span>
+      </div>
+      <p class="desc">Kue tradisional buatan tangan, dibuat setiap subuh dan dijual selagi masih hangat.</p>
+      <div class="menu-list">
+        <div class="menu-item"><span>Klepon</span><span class="price">Rp 8.000</span></div>
+        <div class="menu-item"><span>Lupis</span><span class="price">Rp 7.000</span></div>
+        <div class="menu-item"><span>Kue Lapis</span><span class="price">Rp 9.000</span></div>
+        <div class="menu-item"><span>Getuk Lindri</span><span class="price">Rp 7.000</span></div>
+      </div>
+      <div class="card-foot">
+        <span><span class="label">Lokasi</span> Bakul keliling, sekitar Jl. Mawar</span>
+        <span><span class="label">Jam buka</span> 05.30 - 09.00</span>
+      </div>
+    </article>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    Katalog ini berisi data contoh (fiktif) untuk keperluan latihan atau tugas. Ganti nama UMKM, menu, harga, dan informasi lain dengan data yang sebenarnya sesuai kebutuhan.
+  </div>
+</footer>
+
+<script>
+  const chips = document.querySelectorAll('.chip');
+  const cards = document.querySelectorAll('.card');
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const filter = chip.dataset.filter;
+      cards.forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
